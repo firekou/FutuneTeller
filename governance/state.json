@@ -1,0 +1,36 @@
+{
+  "project": "FutuneTeller",
+  "updated_at": "2026-10-04",
+  "phase": "PLANNED",
+  "work_id": "FT-MVP-001",
+  "next_role": "Claude executor",
+  "next_checkpoint": "P0-P2 bounded local consultation MVP",
+  "execution_status": "NOT_STARTED",
+  "review_decision": null,
+  "reviewed_head": null,
+  "reviewer_only_head": null,
+  "automation_status": "NOT_ENABLED",
+  "source_inventory": {
+    "files": 9,
+    "title_groups": 5,
+    "pdfs_sampled": 2,
+    "ocr_complete": false
+  },
+  "queue": [
+    {
+      "work_id": "FT-MVP-001",
+      "status": "READY_FOR_EXECUTION",
+      "scope": "source audit, verified subset, persona, local UI, evaluation",
+      "packet": "prompts/CLAUDE_EXECUTION_PROMPT.md"
+    }
+  ],
+  "blocking_findings": [],
+  "unknowns": [
+    "source rights",
+    "7 PDFs content",
+    "variant relationships",
+    "verified divination method",
+    "Claude Drive and LLM access"
+  ],
+  "next_action": "Owner starts Claude with execution prompt and source folder; no Claude wake-up has been observed."
+}
