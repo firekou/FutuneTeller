@@ -34,3 +34,32 @@
 
 ## 本輪起點
 repository 在讀取時為 public、預設 main、size 0；contents 回應「This repository is empty.」。因此不存在可讀取的既有 README、AGENTS、程式或交接規則。
+
+## FT-MVP-001 執行者補充盤點（Claude，2026-10-04）
+存取方式：Google Drive MCP（Owner 既有授權），只讀；未變更分享權限、未上傳。9 份 PDF 全數以 `get_file_metadata`／`search_files` 列出並以 `read_file_content` 實際讀取。
+**限制**：Drive MCP `download_file_content` 單檔上限 10MB，9 份皆超過（錯誤原文：`File too large for download, over limit of 10 MB`），因此本輪**無 PDF 本體、無檔案 checksum、無逐頁圖像**；Drive 也未回傳 md5Checksum。以下「文字層」指 Drive 回傳的文字表示（Drive 內部 OCR，引擎版本未公開）。
+
+| ID | Drive fileId | Drive 文字表示 | 實際觀察 |
+| --- | --- | --- | --- |
+| S01 風水要詣_n | 1D-Nwj5jrs9-JnIfrGoixPOoEHL6TPVdt | 386 個空白頁佔位，僅版權頁有字 | 編者 徐宇辳，宋林出版社，2011 二刷；內文需本地 OCR |
+| S02 風水要詣_c | 1_lpgAZ8udIZjZsnIH13nQDNdRb7fwRLJ | 約 1.5k 字 | 封面／封底／書腰（叢書書目、簡介），非內文 |
+| S03 諸葛神卦大註解_n | 1467XNln1cLfz7SvFzPuCG7gx3gxdmPUf | 有，約至印刷頁 58 截斷 | 前言（三骰起卦法）、目錄 I–XVI（64 卦×6 爻＝384 頁）、第 1–9 卦釋文頁可讀 |
+| S04 諸葛神卦大註解_c | 1RtBK1gv_9c7grNhYJPjBMixcpofu7GSs | 空字串 | 114.5MB，無文字層；內容未知（可能為彩色掃描或封面），**未比對** |
+| S05 冰鑑‧鐵關刀_n | 1DBCx8pzjssFYCMUOKDOCgMjY7vY3Y5tW | 約 20k 字，約至印刷頁 66 截斷 | 冰鑑（曾國藩）七章＋神相鐵關刀；直排 OCR 錯亂嚴重 |
+| S06 冰鑑‧鐵關刀_c | 1Kp95sNLlkZRxE5k1wouH-oGXc20r6Lvo | 單一空白頁 | 推測為封面，未確認 |
+| S07 拆字測禍福_n | 1hnLCyW9ksvhSecvxlmef9eX0bNtB8hqF | 約 35–40k 字，約至印刷頁 62 截斷 | 500 餘則拆字軼事選集，依筆畫排序；**無逐步方法**；頁尾頁碼格式穩定 |
+| S08 取名號彙集_n | 1bPYfGwKfRHPHlfmM9CTmr9HAECKBX9xh | 空字串 | 無文字層，需本地 OCR |
+| S09 取名號彙集_c | 1sfBD4YJuLp7FR9S3LNex0ANhTKzz03d2 | 約 1.2k 字 | 封面／封底，ISBN 978-957-8275-48-5 |
+
+### _n／_c 關係（OBSERVED，非定論）
+S02、S09 的 _c 為封面／封底文字；S06、S04 的 _c 無文字層。目前證據傾向「_n＝內文、_c＝封面或另一掃描」，但 S04（114MB）內容未能檢視，**不能**斷言 _c 只是封面。選用來源：S03 _n（唯一有可讀內文者）。
+
+### 諸葛神卦起卦法（已由原書前言確認，OBSERVED）
+三粒骰子：兩粒刻卦名（紅字為上卦、黑字為下卦），一粒刻爻數（初、二、三、四、五、上）；擲出後依卦、爻查書。
+目錄結構：上卦依「乾、兌、離、震、巽、坎、艮、坤」每 8 卦一組；組內下卦由與上卦相同者起依同序循環；每卦 6 頁。
+由此得確定性規則：卦序 = 上卦序×8 + (下卦序−上卦序) mod 8 + 1；印刷頁 = (卦序−1)×6 + 爻序。已以 8 個目錄條目測試（`tests/test_core.py`），並與 GPT 抽讀的「PDF 40＝印刷頁 18＝第三卦同人上爻」一致。
+**本書卦序與通行周易卦序不同**（例：上兌下坤＝本書第 15 卦，通行本為萃第 45 卦），程式只用本書卦序。
+
+### 本輪入庫子集
+S03：前言 2 段、目錄結構摘要 1 段（執行者整理，標為非原文）、第 1–9 卦 54 爻（簽曰＋原註全文、釋文節錄），共 57 段。逐段 sha256 見 `data/chunk_manifest.json`；文字本身只在私有目錄。
+校對狀態：`DRIVE_OCR_NORMALIZED; HEADER_STRUCTURE_VERIFIED_VS_TOC_RULE; NOT_IMAGE_VERIFIED`——54 爻的卦序／上下卦／爻位標頭均與目錄規則一致（程式 assert），**文字內容未對原頁圖像逐字校對**。
