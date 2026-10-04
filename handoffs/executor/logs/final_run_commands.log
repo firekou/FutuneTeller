@@ -1,0 +1,19 @@
+$ python scripts/build_corpus.py
+  head=7b0c6ae dirty=0 start=2026-10-04T13:39:46Z
+  exit=0 end=2026-10-04T13:39:46Z
+$ python -m mingheng.cli index
+  head=7b0c6ae dirty=0 start=2026-10-04T13:39:46Z
+  exit=0 end=2026-10-04T13:39:46Z
+$ python -m pytest -q
+  head=7b0c6ae dirty=0 start=2026-10-04T13:39:46Z
+  exit=0 end=2026-10-04T13:39:46Z
+$ python eval/run_eval.py
+  head=7b0c6ae dirty=0 start=2026-10-04T13:39:46Z
+  exit=0 end=2026-10-04T13:42:59Z
+$ python scripts/run_demo.py
+  head=7b0c6ae dirty=0 start=2026-10-04T13:42:59Z
+  exit=0 end=2026-10-04T13:44:47Z
+$ python scripts/screenshot_ui.py
+  head=7b0c6ae dirty=0 start=2026-10-04T13:44:47Z
+  exit=0 end=2026-10-04T13:45:25Z
+DONE

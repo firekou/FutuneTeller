@@ -1,11 +1,11 @@
 {
   "project": "FutuneTeller",
   "updated_at": "2026-10-04",
-  "phase": "PLANNED",
+  "phase": "P0-P2_BOUNDED_PROTOTYPE",
   "work_id": "FT-MVP-001",
-  "next_role": "Claude executor",
-  "next_checkpoint": "P0-P2 bounded local consultation MVP",
-  "execution_status": "NOT_STARTED",
+  "next_role": "GPT independent reviewer",
+  "next_checkpoint": "Independent review of FT-MVP-001 at tested content_head",
+  "execution_status": "READY_FOR_REVIEW",
   "review_decision": null,
   "reviewed_head": null,
   "reviewer_only_head": null,
@@ -13,24 +13,69 @@
   "source_inventory": {
     "files": 9,
     "title_groups": 5,
-    "pdfs_sampled": 2,
-    "ocr_complete": false
+    "files_accessed": 9,
+    "pdf_binary_downloaded": 0,
+    "pdf_binary_block": "Drive MCP download limit 10MB; all 9 files exceed it",
+    "drive_text_readable": [
+      "S03 (truncated ~p58)",
+      "S05 (truncated ~p66)",
+      "S07 (truncated ~p62)"
+    ],
+    "ocr_complete": false,
+    "ingested": "S03 preface + TOC summary + hexagrams 1-9 (54 yao), 57 chunks, private",
+    "image_verified_chunks": 0,
+    "structure_verified_chunks": 54
   },
   "queue": [
     {
       "work_id": "FT-MVP-001",
-      "status": "READY_FOR_EXECUTION",
+      "status": "READY_FOR_REVIEW",
       "scope": "source audit, verified subset, persona, local UI, evaluation",
       "packet": "prompts/CLAUDE_EXECUTION_PROMPT.md"
     }
   ],
   "blocking_findings": [],
   "unknowns": [
-    "source rights",
-    "7 PDFs content",
+    "source rights (incl. 2004 modern annotation)",
+    "PDF binaries / checksums",
+    "image-level proofreading",
+    "S04 _c content",
     "variant relationships",
-    "verified divination method",
-    "Claude Drive and LLM access"
+    "330 un-ingested yao",
+    "other methods' texts"
   ],
-  "next_action": "Owner starts Claude with execution prompt and source folder; no Claude wake-up has been observed."
+  "next_action": "GPT runs handoffs/executor/GPT_REVIEW_PROMPT.md against PR #1 and writes handoffs/reviewer/FT-MVP-001.md",
+  "executor": {
+    "role": "Claude executor",
+    "branch": "claude/trusting-archimedes-o0wvgy",
+    "branch_note": "session-mandated branch; AGENTS.md names claude/ft-mvp-001",
+    "pr": "https://github.com/firekou/FutuneTeller/pull/1",
+    "pr_state": "draft",
+    "base_sha": "071fe074fcf9e240613ab634c1343c18c79457d5",
+    "tested_content_head": "7b0c6ae4cb04cc5b79ebd9157f415d47aa509c82",
+    "report": "handoffs/executor/FT-MVP-001.md",
+    "review_prompt": "handoffs/executor/GPT_REVIEW_PROMPT.md"
+  },
+  "evidence": {
+    "pytest": "31 passed (exit 0) at 7b0c6ae",
+    "eval_run3_final": {
+      "recall_top5": "8/8",
+      "answerable": "8/8",
+      "boundary": "12/12",
+      "citations": 20,
+      "citation_warnings": 0,
+      "model": "claude-sonnet-5-5 via claude_cli"
+    },
+    "eval_run1_preserved": {
+      "recall_top5": "7/8",
+      "note": "A5 miss; B2 model mis-derived hexagram order (manual review)"
+    },
+    "demos": 3,
+    "screenshots": 4
+  },
+  "owner_decisions_needed": [
+    "provide S03 PDF binary or Drive API download for image verification",
+    "whether short quotations in eval/demo outputs may remain public",
+    "branch naming"
+  ]
 }
