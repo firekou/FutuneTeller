@@ -1,0 +1,7 @@
+# 直接依賴（精確版本）；完整傳遞依賴見 requirements.lock
+streamlit==1.65.0
+pytest==9.1.1
+# 選用：reviewer 以本地 PDF 渲染頁面核對（scripts/verify_pages.py）
+pymupdf==1.28.2
+# 選用：UI 截圖（scripts/screenshot_ui.py）
+playwright==1.56.0

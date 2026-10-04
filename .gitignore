@@ -1,0 +1,11 @@
+# 私有資料：原書、OCR、整理後典籍文字一律不提交
+data/private/
+*.pdf
+.env
+.streamlit/secrets.toml
+__pycache__/
+*.pyc
+.pytest_cache/
+*.sqlite
+*.db
+.venv/
